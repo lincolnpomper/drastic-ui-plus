@@ -45,3 +45,8 @@ target folder, not here.
 Nintendo, Nintendo DS, and all game titles are trademarks of their respective
 owners. Fun Drastic contains no Nintendo code, art, or assets; theme names
 are color-palette names only.
+
+## DraStic UI Plus
+
+- **Lincoln Pompermaier** — RG DS Plus adaptation and maintenance.
+- **jdgleaver** and **Gigaherz** — reference [LCD1x](https://github.com/libretro/slang-shaders/blob/master/handheld/shaders/lcd1x.slang) and [LCD3x](https://github.com/libretro/slang-shaders/blob/master/handheld/shaders/lcd3x.slang) filter formulas, implemented here as cached SDL masks.
