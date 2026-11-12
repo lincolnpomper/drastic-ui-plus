@@ -17,31 +17,31 @@ class LauncherSettings(unittest.TestCase):
 get_setting() {
     test "$2" = nds && test "$3" = 'Game Name.nds' || exit 99
     case "$1" in
-        fun_drastic_shader) printf '%s' "$TEST_SHADER" ;;
+        drastic_ui_plus_shader) printf '%s' "$TEST_SHADER" ;;
         shader) printf '%s' "$TEST_INHERITED" ;;
-        fun_drastic_lcd_intensity) printf '%s' "$TEST_INTENSITY" ;;
-        fun_drastic_brighten_scanlines) printf '%s' "$TEST_SCANLINES" ;;
-        fun_drastic_brighten_lcd) printf '%s' "$TEST_LCD" ;;
+        drastic_ui_plus_lcd_intensity) printf '%s' "$TEST_INTENSITY" ;;
+        drastic_ui_plus_brighten_scanlines) printf '%s' "$TEST_SCANLINES" ;;
+        drastic_ui_plus_brighten_lcd) printf '%s' "$TEST_LCD" ;;
         *) exit 98 ;;
     esac
 }
 realpath() { printf '%s' '/storage/roms/nds/Game Name.nds'; }
 ''')
-        script += '\nprintf "%s|%s|%s|%s" "$FUN_DRASTIC_SHADER" "$FUN_DRASTIC_LCD_INTENSITY" "$FUN_DRASTIC_BRIGHTEN_SCANLINES" "$FUN_DRASTIC_BRIGHTEN_LCD"\n'
+        script += '\nprintf "%s|%s|%s|%s" "$DRASTIC_UI_PLUS_SHADER" "$DRASTIC_UI_PLUS_LCD_INTENSITY" "$DRASTIC_UI_PLUS_BRIGHTEN_SCANLINES" "$DRASTIC_UI_PLUS_BRIGHTEN_LCD"\n'
         env = dict(os.environ, TEST_SHADER=shader, TEST_INHERITED=inherited,
                    TEST_INTENSITY=intensity, TEST_SCANLINES=scanlines, TEST_LCD=lcd)
         return subprocess.check_output(['bash', '-c', script, 'launcher', 'game'],
                                        env=env, text=True)
 
     def test_es_choices_reach_launcher(self):
-        features = ET.parse(PORT / 'es_features_fun_drastic.cfg')
+        features = ET.parse(PORT / 'es_features_drastic_ui_plus.cfg')
         items = {f.attrib['value']: f for f in features.findall('.//feature')}
         self.assertEqual(set(items), {
-            'fun_drastic_shader', 'fun_drastic_lcd_intensity',
-            'fun_drastic_brighten_scanlines', 'fun_drastic_brighten_lcd',
+            'drastic_ui_plus_shader', 'drastic_ui_plus_lcd_intensity',
+            'drastic_ui_plus_brighten_scanlines', 'drastic_ui_plus_brighten_lcd',
         })
-        for shader in items['fun_drastic_shader'].findall('choice'):
-            for intensity in items['fun_drastic_lcd_intensity'].findall('choice'):
+        for shader in items['drastic_ui_plus_shader'].findall('choice'):
+            for intensity in items['drastic_ui_plus_lcd_intensity'].findall('choice'):
                 s, i = shader.attrib['value'], intensity.attrib['value']
                 self.assertEqual(self.launch_settings(s, 'lcd3x', i), f'{s}|{i}||')
 

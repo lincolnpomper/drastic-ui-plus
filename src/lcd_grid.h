@@ -1,5 +1,5 @@
-#ifndef FUN_LCD_GRID_H
-#define FUN_LCD_GRID_H
+#ifndef DRASTIC_UI_PLUS_LCD_GRID_H
+#define DRASTIC_UI_PLUS_LCD_GRID_H
 
 #include <SDL2/SDL.h>
 #include <math.h>
@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* Private implementation included by funhook.c so the hook still builds
+/* Private implementation included by drastic-ui-plus.c so the hook still builds
    from a single translation unit. */
 struct lcd_grid_mask {
     SDL_Texture *texture;
@@ -41,7 +41,7 @@ static double read_lcd_parameter(const char *name, double fallback, double max) 
 }
 
 static void lcd_grid_init(int native_width, int native_height) {
-    const char *shader = getenv("FUN_DRASTIC_SHADER");
+    const char *shader = getenv("DRASTIC_UI_PLUS_SHADER");
     lcd_grid.filter = LCD_OFF;
     if (shader) {
         if (!strcmp(shader, "lcd3x") || !strcmp(shader, "lcd-grid"))
@@ -52,7 +52,7 @@ static void lcd_grid_init(int native_width, int native_height) {
             lcd_grid.filter = LCD_RETROARCH_3X;
     }
     /* Keep Original as the default for each filter. */
-    const char *intensity = getenv("FUN_DRASTIC_LCD_INTENSITY");
+    const char *intensity = getenv("DRASTIC_UI_PLUS_LCD_INTENSITY");
     unsigned percent = 62;
     lcd_grid.retroarch_strength = 1.0;
     if (intensity && !strcmp(intensity, "soft")) {
@@ -67,8 +67,8 @@ static void lcd_grid_init(int native_width, int native_height) {
     }
     lcd_grid.line_brightness = (255 * percent + 50) / 100;
     lcd_grid.crossing_brightness = (255 * percent * percent + 5000) / 10000;
-    lcd_grid.brighten_scanlines = read_lcd_parameter("FUN_DRASTIC_BRIGHTEN_SCANLINES", 16, 32);
-    lcd_grid.brighten_lcd = read_lcd_parameter("FUN_DRASTIC_BRIGHTEN_LCD", 4, 12);
+    lcd_grid.brighten_scanlines = read_lcd_parameter("DRASTIC_UI_PLUS_BRIGHTEN_SCANLINES", 16, 32);
+    lcd_grid.brighten_lcd = read_lcd_parameter("DRASTIC_UI_PLUS_BRIGHTEN_LCD", 4, 12);
     lcd_grid.native_width = native_width;
     lcd_grid.native_height = native_height;
 }

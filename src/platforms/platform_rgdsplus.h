@@ -1,9 +1,9 @@
-// Fun Drastic target for the Anbernic RG DS Plus on ROCKNIX.
+// DraStic UI Plus target for the Anbernic RG DS Plus on ROCKNIX.
 #ifndef PLATFORM_H
 #define PLATFORM_H
 
 #define PLATFORM_NAME       "rgdsplus"
-#define FUN_DUAL_PANEL      1
+#define DRASTIC_UI_PLUS_DUAL_PANEL      1
 
 #define FB_W                1024
 #define FB_H                768
@@ -44,6 +44,6 @@
 #define CURSOR_PRESS_BTN    11
 
 // DraStic r2.5.2.2's live fast-forward flag, relative to its system struct.
-#define FUN_NATIVE_FF_OFFSET 0x85a04
+#define DRASTIC_UI_PLUS_NATIVE_FF_OFFSET 0x85a04
 
 #endif

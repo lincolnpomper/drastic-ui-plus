@@ -5,8 +5,8 @@
 
 static void check_mask(SDL_Renderer *renderer, const char *preset,
                        unsigned line, unsigned crossing) {
-    if (preset) setenv("FUN_DRASTIC_LCD_INTENSITY", preset, 1);
-    else unsetenv("FUN_DRASTIC_LCD_INTENSITY");
+    if (preset) setenv("DRASTIC_UI_PLUS_LCD_INTENSITY", preset, 1);
+    else unsetenv("DRASTIC_UI_PLUS_LCD_INTENSITY");
     lcd_grid_clear_cache();
     lcd_grid_init(256, 192);
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
@@ -33,8 +33,8 @@ static void check_mask(SDL_Renderer *renderer, const char *preset,
 
 static void check_retroarch_mask(SDL_Renderer *renderer, const char *filter,
                                  const char *preset, const uint32_t expected[4]) {
-    setenv("FUN_DRASTIC_SHADER", filter, 1);
-    setenv("FUN_DRASTIC_LCD_INTENSITY", preset, 1);
+    setenv("DRASTIC_UI_PLUS_SHADER", filter, 1);
+    setenv("DRASTIC_UI_PLUS_LCD_INTENSITY", preset, 1);
     lcd_grid_clear_cache();
     lcd_grid_init(256, 192);
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
@@ -50,8 +50,8 @@ static void check_retroarch_mask(SDL_Renderer *renderer, const char *filter,
 }
 
 int main(void) {
-    unsetenv("FUN_DRASTIC_BRIGHTEN_SCANLINES");
-    unsetenv("FUN_DRASTIC_BRIGHTEN_LCD");
+    unsetenv("DRASTIC_UI_PLUS_BRIGHTEN_SCANLINES");
+    unsetenv("DRASTIC_UI_PLUS_BRIGHTEN_LCD");
     assert(SDL_Init(0) == 0);
     SDL_Surface *surface = SDL_CreateRGBSurfaceWithFormat(0, 1024, 768, 32,
                                                         SDL_PIXELFORMAT_RGBA8888);
@@ -60,8 +60,8 @@ int main(void) {
     assert(renderer);
     const char *shaders[] = {"lcd3x", "lcd-grid", "none", "auto", "unknown", NULL};
     for (unsigned i = 0; i < sizeof(shaders) / sizeof(*shaders); ++i) {
-        if (shaders[i]) setenv("FUN_DRASTIC_SHADER", shaders[i], 1);
-        else unsetenv("FUN_DRASTIC_SHADER");
+        if (shaders[i]) setenv("DRASTIC_UI_PLUS_SHADER", shaders[i], 1);
+        else unsetenv("DRASTIC_UI_PLUS_SHADER");
         check_mask(renderer, "soft", 217, 184);
         check_mask(renderer, "medium", 191, 143);
         check_mask(renderer, "original", 158, 98);
@@ -85,14 +85,14 @@ int main(void) {
                         (const uint32_t[]){0xecd598ff, 0xa5f9bcff, 0xa5bcf9ff, 0xec98d5ff});
     check_retroarch_mask(renderer, "retroarch-lcd3x", "strong",
                         (const uint32_t[]){0xd9ad35ff, 0x4ef37aff, 0x4e7af3ff, 0xd935adff});
-    setenv("FUN_DRASTIC_BRIGHTEN_SCANLINES", "1.0", 1);
+    setenv("DRASTIC_UI_PLUS_BRIGHTEN_SCANLINES", "1.0", 1);
     check_retroarch_mask(renderer, "retroarch-lcd1x", "original",
                         (const uint32_t[]){0x191919ff, 0x232323ff, 0x232323ff, 0x191919ff});
-    setenv("FUN_DRASTIC_BRIGHTEN_SCANLINES", "nan", 1);
-    setenv("FUN_DRASTIC_BRIGHTEN_LCD", "1.0", 1);
+    setenv("DRASTIC_UI_PLUS_BRIGHTEN_SCANLINES", "nan", 1);
+    setenv("DRASTIC_UI_PLUS_BRIGHTEN_LCD", "1.0", 1);
     check_retroarch_mask(renderer, "retroarch-lcd1x", "original",
                         (const uint32_t[]){0x222222ff, 0xc4c4c4ff, 0xc4c4c4ff, 0x222222ff});
-    setenv("FUN_DRASTIC_BRIGHTEN_SCANLINES", "1.0", 1);
+    setenv("DRASTIC_UI_PLUS_BRIGHTEN_SCANLINES", "1.0", 1);
     check_retroarch_mask(renderer, "retroarch-lcd1x", "strong",
                         (const uint32_t[]){0xff, 0xff, 0xff, 0xff});
     lcd_grid_clear_cache();

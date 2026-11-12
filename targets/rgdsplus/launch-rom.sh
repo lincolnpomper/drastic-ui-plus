@@ -5,26 +5,26 @@ set -eu
 root=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 rom=$(realpath "${1:?Pass a Nintendo DS ROM}")
 game_name=${rom##*/}
-shader=$(get_setting fun_drastic_shader nds "$game_name")
+shader=$(get_setting drastic_ui_plus_shader nds "$game_name")
 if [ -z "$shader" ] || [ "$shader" = auto ]; then
     shader=$(get_setting shader nds "$game_name")
 fi
-export FUN_DRASTIC_SHADER="$shader"
-intensity=$(get_setting fun_drastic_lcd_intensity nds "$game_name")
+export DRASTIC_UI_PLUS_SHADER="$shader"
+intensity=$(get_setting drastic_ui_plus_lcd_intensity nds "$game_name")
 case "$intensity" in
     soft|medium|original|strong) ;;
     *) intensity=original ;;
 esac
-export FUN_DRASTIC_LCD_INTENSITY="$intensity"
-FUN_DRASTIC_BRIGHTEN_SCANLINES=$(get_setting fun_drastic_brighten_scanlines nds "$game_name")
-FUN_DRASTIC_BRIGHTEN_LCD=$(get_setting fun_drastic_brighten_lcd nds "$game_name")
-export FUN_DRASTIC_BRIGHTEN_SCANLINES FUN_DRASTIC_BRIGHTEN_LCD
-export FUN_DRASTIC_SAVE_DIR=/storage/roms/saves/retroarch/nds
-export FUN_DRASTIC_STATE_DIR=/storage/roms/saves/states/retroarch/nds
+export DRASTIC_UI_PLUS_LCD_INTENSITY="$intensity"
+DRASTIC_UI_PLUS_BRIGHTEN_SCANLINES=$(get_setting drastic_ui_plus_brighten_scanlines nds "$game_name")
+DRASTIC_UI_PLUS_BRIGHTEN_LCD=$(get_setting drastic_ui_plus_brighten_lcd nds "$game_name")
+export DRASTIC_UI_PLUS_BRIGHTEN_SCANLINES DRASTIC_UI_PLUS_BRIGHTEN_LCD
+export DRASTIC_UI_PLUS_SAVE_DIR=/storage/roms/saves/retroarch/nds
+export DRASTIC_UI_PLUS_STATE_DIR=/storage/roms/saves/states/retroarch/nds
 case "$rom" in
     /storage/roms/nds/*.[nN][dD][sS]) exec "$root/launch.sh" "$rom" ;;
     /storage/roms/nds/*.[zZ][iI][pP]|/storage/roms/nds/*.[7][zZ]) ;;
-    *) printf 'Fun Drastic: unsupported ROM path: %s\n' "$rom" >&2; exit 64 ;;
+    *) printf 'DraStic UI Plus: unsupported ROM path: %s\n' "$rom" >&2; exit 64 ;;
 esac
 
 mkdir -p "$root/roms"
@@ -47,7 +47,7 @@ member=$(awk '
     }
     END { if (count == 1) print path; else exit 1 }
 ' "$work/members") || {
-    printf 'Fun Drastic: expected exactly one .nds file in %s\n' "$rom" >&2
+    printf 'DraStic UI Plus: expected exactly one .nds file in %s\n' "$rom" >&2
     exit 65
 }
 name=${rom##*/}

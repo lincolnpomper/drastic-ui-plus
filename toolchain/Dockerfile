@@ -1,13 +1,13 @@
-# Fun Drastic build toolchain.
+# DraStic UI Plus build toolchain.
 #
 # One image, both cross-compilers, and the SDL2 headers the hook compiles
 # against. Build it once:
 #
-#     docker build -t fundrastic-build toolchain/
+#     docker build -t drastic-ui-plus-build toolchain/
 #
 # The Makefile runs every target inside this image. See docs/BUILDING.md.
 #
-# The hook (libfundrastic.so) never links SDL2 — it resolves DraStic's own SDL2
+# The hook (libdrastic-ui-plus.so) never links SDL2 — it resolves DraStic's own SDL2
 # symbols at run time via LD_PRELOAD. It only needs SDL2's public headers to
 # compile, so a single cross-built SDL2 header tree serves both the aarch64 and
 # the armhf lane; the video/audio backends are irrelevant and left off.

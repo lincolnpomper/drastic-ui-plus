@@ -1,6 +1,6 @@
 /*
- * Fun Drastic - a themed, standalone frontend for the DraStic Nintendo DS
- * emulator, delivered as an LD_PRELOAD hook (libfundrastic.so). It wraps the
+ * DraStic UI Plus - a themed, standalone frontend for the DraStic Nintendo DS
+ * emulator, delivered as an LD_PRELOAD hook (libdrastic-ui-plus.so). It wraps the
  * stock DraStic binary's SDL2 calls to draw its own menu, save states, cheats,
  * screen layouts, overlays and touch cursor - without modifying the emulator.
  *
@@ -73,7 +73,7 @@ static int g_vfb_h = VFB_H;
 #define VFB_H g_vfb_h
 static int g_panel_w;
 static int g_expand_window;
-#ifdef FUN_DUAL_PANEL
+#ifdef DRASTIC_UI_PLUS_DUAL_PANEL
 static int g_layout_configured;
 #endif
 #define MENU_W (g_panel_w ? g_panel_w : VFB_W)
@@ -958,55 +958,55 @@ static pthread_once_t resolve_once = PTHREAD_ONCE_INIT;
 static uint32_t PAD_curr = 0;
 static uint32_t PAD_prev = 0;
 
-/* FUN_KB_INPUT: platforms that deliver buttons as keyboard events.
+/* DRASTIC_UI_PLUS_KB_INPUT: platforms that deliver buttons as keyboard events.
    Mapped keys are mirrored onto the JOY_* button space so the menu, nav
    and shortcuts work unchanged. */
-#ifdef FUN_KB_INPUT
-#ifndef FUN_KB_UP
-#define FUN_KB_UP     SDLK_UP
-#define FUN_KB_DOWN   SDLK_DOWN
-#define FUN_KB_LEFT   SDLK_LEFT
-#define FUN_KB_RIGHT  SDLK_RIGHT
-#define FUN_KB_A      SDLK_SPACE
-#define FUN_KB_B      SDLK_LCTRL
-#define FUN_KB_X      SDLK_z
-#define FUN_KB_Y      SDLK_x
-#define FUN_KB_L1     SDLK_LSHIFT
-#define FUN_KB_R1     SDLK_c
-#define FUN_KB_START  SDLK_RETURN
-#define FUN_KB_SELECT SDLK_RSHIFT
-#define FUN_KB_MENU   SDLK_m
+#ifdef DRASTIC_UI_PLUS_KB_INPUT
+#ifndef DRASTIC_UI_PLUS_KB_UP
+#define DRASTIC_UI_PLUS_KB_UP     SDLK_UP
+#define DRASTIC_UI_PLUS_KB_DOWN   SDLK_DOWN
+#define DRASTIC_UI_PLUS_KB_LEFT   SDLK_LEFT
+#define DRASTIC_UI_PLUS_KB_RIGHT  SDLK_RIGHT
+#define DRASTIC_UI_PLUS_KB_A      SDLK_SPACE
+#define DRASTIC_UI_PLUS_KB_B      SDLK_LCTRL
+#define DRASTIC_UI_PLUS_KB_X      SDLK_z
+#define DRASTIC_UI_PLUS_KB_Y      SDLK_x
+#define DRASTIC_UI_PLUS_KB_L1     SDLK_LSHIFT
+#define DRASTIC_UI_PLUS_KB_R1     SDLK_c
+#define DRASTIC_UI_PLUS_KB_START  SDLK_RETURN
+#define DRASTIC_UI_PLUS_KB_SELECT SDLK_RSHIFT
+#define DRASTIC_UI_PLUS_KB_MENU   SDLK_m
 #endif
 /* some hosts deliver the Menu button as HOME - accept both */
-#ifndef FUN_KB_MENU2
-#define FUN_KB_MENU2  SDLK_HOME
+#ifndef DRASTIC_UI_PLUS_KB_MENU2
+#define DRASTIC_UI_PLUS_KB_MENU2  SDLK_HOME
 #endif
 static int kb_to_btn(int sym) {
-    if (sym == FUN_KB_MENU)  return JOY_MENU;
-    if (sym == FUN_KB_MENU2) return JOY_MENU;
+    if (sym == DRASTIC_UI_PLUS_KB_MENU)  return JOY_MENU;
+    if (sym == DRASTIC_UI_PLUS_KB_MENU2) return JOY_MENU;
     switch (sym) {
-    case FUN_KB_UP:     return JOY_UP;
-    case FUN_KB_DOWN:   return JOY_DOWN;
-    case FUN_KB_LEFT:   return JOY_LEFT;
-    case FUN_KB_RIGHT:  return JOY_RIGHT;
-    case FUN_KB_A:      return JOY_A;
-    case FUN_KB_B:      return JOY_B;
-    case FUN_KB_X:      return JOY_X;
-    case FUN_KB_Y:      return JOY_Y;
-    case FUN_KB_L1:     return JOY_L1;
-    case FUN_KB_R1:     return JOY_R1;
-    case FUN_KB_START:  return JOY_START;
-    case FUN_KB_SELECT: return JOY_SELECT;
+    case DRASTIC_UI_PLUS_KB_UP:     return JOY_UP;
+    case DRASTIC_UI_PLUS_KB_DOWN:   return JOY_DOWN;
+    case DRASTIC_UI_PLUS_KB_LEFT:   return JOY_LEFT;
+    case DRASTIC_UI_PLUS_KB_RIGHT:  return JOY_RIGHT;
+    case DRASTIC_UI_PLUS_KB_A:      return JOY_A;
+    case DRASTIC_UI_PLUS_KB_B:      return JOY_B;
+    case DRASTIC_UI_PLUS_KB_X:      return JOY_X;
+    case DRASTIC_UI_PLUS_KB_Y:      return JOY_Y;
+    case DRASTIC_UI_PLUS_KB_L1:     return JOY_L1;
+    case DRASTIC_UI_PLUS_KB_R1:     return JOY_R1;
+    case DRASTIC_UI_PLUS_KB_START:  return JOY_START;
+    case DRASTIC_UI_PLUS_KB_SELECT: return JOY_SELECT;
     default:            return -1;
     }
 }
 #endif
 
-/* FUN_EVLOG=1 turns on diagnostics: input events, pacing-valve resyncs,
+/* DRASTIC_UI_PLUS_EVLOG=1 turns on diagnostics: input events, pacing-valve resyncs,
    and the shortcut combo probe */
 static int fun_evlog(void) {
     static int v = -1;
-    if (v < 0) { const char *e = getenv("FUN_EVLOG"); v = (e && *e == '1') ? 1 : 0; }
+    if (v < 0) { const char *e = getenv("DRASTIC_UI_PLUS_EVLOG"); v = (e && *e == '1') ? 1 : 0; }
     return v;
 }
 static void evlog_event(const SDL_Event *e, const char *src) {
@@ -1149,7 +1149,7 @@ static void nds_evpad_poll(void) {
         for (int i = 0; i < EVP_N; i++)
             g_evp_fd[i] = open(g_evp_node[i], O_RDONLY | O_NONBLOCK | O_CLOEXEC);
         if (fun_evlog())
-            fprintf(stderr, "[fun] evpad: fds pad=%d sys0=%d sys1=%d\n",
+            fprintf(stderr, "[drastic-ui-plus] evpad: fds pad=%d sys0=%d sys1=%d\n",
                     g_evp_fd[0], g_evp_fd[1], g_evp_fd[2]);
     }
     struct input_event ev[32];
@@ -1257,7 +1257,7 @@ static void PAD_poll(void) {
         evlog_event(&e, "pad");
         if (e.type == SDL_JOYBUTTONDOWN) PAD_curr |=  (1u << e.jbutton.button);
         if (e.type == SDL_JOYBUTTONUP)   PAD_curr &= ~(1u << e.jbutton.button);
-#ifdef FUN_KB_INPUT
+#ifdef DRASTIC_UI_PLUS_KB_INPUT
         if ((e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) && !e.key.repeat) {
             int kb = kb_to_btn((int)e.key.keysym.sym);
             if (kb >= 0) {
@@ -1921,7 +1921,7 @@ static void emu_config_load(void) {
         if (!strcmp(key, "theme"))         app.theme         = val;
         if (!strcmp(key, "layout")) {
             app.layout = val;
-#ifdef FUN_DUAL_PANEL
+#ifdef DRASTIC_UI_PLUS_DUAL_PANEL
             g_layout_configured = val >= 0 && val < LAYOUT_COUNT;
 #endif
         }
@@ -2036,7 +2036,7 @@ static void drastic_cfg_save_all(void) {
         drastic_cfg_set(cfg, "rtc_custom_time", tmp);
     }
 
-#ifndef FUN_NATIVE_FF_OFFSET
+#ifndef DRASTIC_UI_PLUS_NATIVE_FF_OFFSET
     snprintf(tmp, sizeof(tmp), "%d", app.ff_speed ? 1 : 0);
     drastic_cfg_set(cfg, "fast_forward", tmp);
 #endif
@@ -2075,7 +2075,7 @@ static void *drastic_system(void) { return (void *)(uintptr_t)OFF_VAR_SYSTEM; }
 static void *drastic_system(void) { return DRASTIC_VAR(OFF_VAR_SYSTEM); }
 #endif
 
-#ifdef FUN_DUAL_PANEL
+#ifdef DRASTIC_UI_PLUS_DUAL_PANEL
 static struct {
     int down;
     SDL_TouchID device;
@@ -2091,7 +2091,7 @@ static void nds_touch_enforce(void) {
     static int touch_written = 0;
     int down = app.cursor_touch_down;
     uint32_t x = (uint32_t)app.cursor_nx, y = (uint32_t)app.cursor_ny;
-#ifdef FUN_DUAL_PANEL
+#ifdef DRASTIC_UI_PLUS_DUAL_PANEL
     if (panel_touch.down) {
         down = 1;
         x = panel_touch.x;
@@ -2102,7 +2102,7 @@ static void nds_touch_enforce(void) {
     void *sys = drastic_system();
     if (!sys) return;
     uint8_t *in = (uint8_t *)sys + NDS_TOUCH_INPUT_OFFSET;
-#ifdef FUN_DUAL_PANEL
+#ifdef DRASTIC_UI_PLUS_DUAL_PANEL
     /* platform_get_input derives touch_status from this bit every frame. */
     uint32_t *buttons = (uint32_t *)(in + NDS_IN_BTN);
     if (down) *buttons |= 0x00020000u;
@@ -2182,7 +2182,7 @@ static int nds_fifo_sanitize(const char *where) {
     if ((q[0] | q[1] | q[2] | q[3]) == 0) return 0;
     if (q[0] < lo || q[0] >= hi || q[1] < lo || q[1] >= hi ||
         q[2] < lo || q[2] >= hi || q[3] < lo || q[3] >= hi) {
-        fprintf(stderr, "[fun] fifo-sanitize(%s): garbage - reset to empty\n", where);
+        fprintf(stderr, "[drastic-ui-plus] fifo-sanitize(%s): garbage - reset to empty\n", where);
         q[0] = base_l; q[1] = base_a; q[2] = base_l; q[3] = base_a;
         return 1;
     }
@@ -2201,7 +2201,7 @@ static void drastic_load_state(int slot) {
     char path[MAX_PATH];
     state_load_path(path, sizeof(path), slot);
     if (access(path, F_OK) != 0)
-        fprintf(stderr, "[fun] load_state: slot %d file missing (%s)\n",
+        fprintf(stderr, "[drastic-ui-plus] load_state: slot %d file missing (%s)\n",
                 slot, path);
     app.last_render_ticks = SDL_GetTicks();
     ((drastic_load_state_t)DRASTIC_FN(OFF_LOAD_STATE))(sys, path, NULL, NULL, 0);
@@ -2250,7 +2250,7 @@ static void mic_inject(int on) {
     uint8_t *spu = (uint8_t *)nds + NDS_SPU_STRUCT_OFF;
     uint8_t  flag = spu[SPU_MIC_ACTIVE];
     if (flag > 1) {                       /* flag is a bool - garbage = wrong base */
-        if (!warned) { fprintf(stderr, "[fun] mic: base sanity fail (flag=%u) - direct drive off\n", flag); warned = 1; }
+        if (!warned) { fprintf(stderr, "[drastic-ui-plus] mic: base sanity fail (flag=%u) - direct drive off\n", flag); warned = 1; }
         return;
     }
     if (!*(void **)(spu + SPU_MIC_WAV)) return;   /* WAV not loaded yet - wait quietly */
@@ -2281,10 +2281,10 @@ static int mic_trigger_held(void) {
     return (app.joy_held & (1u << b)) != 0;
 }
 
-#ifdef FUN_NATIVE_FF_OFFSET
+#ifdef DRASTIC_UI_PLUS_NATIVE_FF_OFFSET
 static int native_ff_active(void) {
     const uint8_t *sys = drastic_system();
-    return sys && sys[FUN_NATIVE_FF_OFFSET] != 0;
+    return sys && sys[DRASTIC_UI_PLUS_NATIVE_FF_OFFSET] != 0;
 }
 
 static SDL_Event native_ff_toggle_event(void) {
@@ -2319,7 +2319,7 @@ static void ff_reset_apply(void) {
         state_path(vpath, sizeof(vpath), FF_TEMP_SLOT);
         if (stat(vpath, &vst) != 0 || vst.st_size < 1024 ||
             vst.st_mtime < t0 - 5) {
-            fprintf(stderr, "[fun] ff: scratch state missing/stale - "
+            fprintf(stderr, "[drastic-ui-plus] ff: scratch state missing/stale - "
                     "cfg-only apply (no reset)\n");
             ff_apply();
             app.plat_busy--;
@@ -2340,13 +2340,13 @@ static void ff_reset_apply(void) {
 #endif
 
 static void load_user_state(int slot) {
-#ifndef FUN_NATIVE_FF_OFFSET
+#ifndef DRASTIC_UI_PLUS_NATIVE_FF_OFFSET
     app.ff_speed = 0;
     emu_config_save();
     ff_apply();
 #endif
     drastic_load_state(slot);
-#ifdef FUN_NATIVE_FF_OFFSET
+#ifdef DRASTIC_UI_PLUS_NATIVE_FF_OFFSET
     // DraStic consumes the F12 press as a toggle. Turn FF off after loading.
     if (native_ff_active()) {
         SDL_Event toggle = native_ff_toggle_event();
@@ -2574,7 +2574,7 @@ static SDL_Rect cursor_touch_rect(void) {
     return slots[app.layout][ts].rect;
 }
 
-#ifdef FUN_DUAL_PANEL
+#ifdef DRASTIC_UI_PLUS_DUAL_PANEL
 static void panel_touch_event(const SDL_TouchFingerEvent *event) {
     if (app.in_menu || app.quitting || !app.window) return;
     if (panel_touch.down &&
@@ -2597,7 +2597,7 @@ static void panel_touch_event(const SDL_TouchFingerEvent *event) {
     float y = event->y * VFB_H;
     if (g_panel_w) x *= 2.0f;
     if (fun_evlog())
-        fprintf(stderr, "[fun] touch %.3f,%.3f -> %.1f,%.1f rect %d,%d %dx%d\n",
+        fprintf(stderr, "[drastic-ui-plus] touch %.3f,%.3f -> %.1f,%.1f rect %d,%d %dx%d\n",
                 event->x, event->y, x, y, rect.x, rect.y, rect.w, rect.h);
     if (event->type == SDL_FINGERDOWN &&
         (x < rect.x || x >= rect.x + rect.w || y < rect.y || y >= rect.y + rect.h))
@@ -2944,7 +2944,7 @@ static void preview_path(char *out, size_t sz, int slot) {
              app.rom_name, slot, state_is_shared(slot) ? ".shared" : "");
 }
 
-#ifdef FUN_DUAL_PANEL
+#ifdef DRASTIC_UI_PLUS_DUAL_PANEL
 #define SAVE_PREVIEW_W (2 * DS_W)
 #define SAVE_PREVIEW_H (4 * DS_H)
 
@@ -2998,7 +2998,7 @@ static void save_vertical_preview(int slot) {
 #endif
 
 static void preview_save(int slot) {
-#ifdef FUN_DUAL_PANEL
+#ifdef DRASTIC_UI_PLUS_DUAL_PANEL
     save_vertical_preview(slot);
 #else
     char path[MAX_PATH];
@@ -3036,7 +3036,7 @@ static void preview_load(int slot) {
     if (!app.renderer) return;
 
     int width = VFB_W, height = VFB_H;
-#ifdef FUN_DUAL_PANEL
+#ifdef DRASTIC_UI_PLUS_DUAL_PANEL
     vertical_preview_path(path, sizeof(path), slot);
     f = fopen(path, "rb");
     if (f) {
@@ -3171,10 +3171,10 @@ static void draw_char(SDL_Renderer *r, char c, int x, int y, int scale, SDL_Colo
             }
 }
 
-/* ASCII in this range is drawn by the bitmap font (Fun Drastic's own look,
+/* ASCII in this range is drawn by the bitmap font (DraStic UI Plus's own look,
    including the arrows); everything else - accents, CJK - comes from the
    active TTF. A custom theme font (g_font_all) draws its own letters but
-   still keeps Fun Drastic's bitmap arrows - the selector '<' '>' stay ours. */
+   still keeps DraStic UI Plus's bitmap arrows - the selector '<' '>' stay ours. */
 #define BITMAP_HAS(cp) ((cp) >= 0x20 && (cp) <= 0x7A)
 #define IS_ARROW(cp)   ((cp) == '<' || (cp) == '>')
 #define USE_BITMAP(cp) (BITMAP_HAS(cp) && (!g_font_all || IS_ARROW(cp)))
@@ -3318,7 +3318,7 @@ static void draw_header(SDL_Renderer *r) {
     fill_rect(r, 0, 0, MENU_W, g_content_y, C_HDR);
     fill_rect(r, 0, g_content_y - 2, MENU_W, 2, C_ACC);
 
-    const char *title = app.rom_display[0] ? app.rom_display : (app.rom_name[0] ? app.rom_name : "FUN DRASTIC");
+    const char *title = app.rom_display[0] ? app.rom_display : (app.rom_name[0] ? app.rom_name : "DRASTIC UI PLUS");
     int hty = (g_content_y - str_h(MN_BIG)) / 2;
     draw_string(r, title, 16, hty, MN_BIG, COL(ACC));
 }
@@ -3517,7 +3517,7 @@ static const char *main_labels[MI_COUNT] = {
         preview_load(rs);
 
         SDL_Rect dst = {PREV_X, PREV_Y, PREV_W, PREV_H};
-#ifdef FUN_DUAL_PANEL
+#ifdef DRASTIC_UI_PLUS_DUAL_PANEL
         int max_h = FOOTER_Y - PREV_Y - 24 - str_h(MN_NRM);
         dst.h = SDL_min(max_h, PREV_W * SAVE_PREVIEW_H / SAVE_PREVIEW_W);
         dst.w = dst.h * SAVE_PREVIEW_W / SAVE_PREVIEW_H;
@@ -3528,7 +3528,7 @@ static const char *main_labels[MI_COUNT] = {
 
         if (app.preview_tex) {
             SDL_Rect image = dst;
-#ifdef FUN_DUAL_PANEL
+#ifdef DRASTIC_UI_PLUS_DUAL_PANEL
             // Fit old horizontal snapshots inside the same frame.
             int width, height;
             if (SDL_QueryTexture(app.preview_tex, NULL, NULL, &width, &height) == 0 &&
@@ -4961,7 +4961,7 @@ static void menu_input_user(int btn) {
 static void menu_open(void) {
     if (app.in_menu) return;
     app.cursor_touch_down = 0;   /* pen up - don't hold a touch through the menu */
-#ifdef FUN_DUAL_PANEL
+#ifdef DRASTIC_UI_PLUS_DUAL_PANEL
     panel_touch.down = 0;
     nds_touch_enforce();
 #endif
@@ -5097,7 +5097,7 @@ int SDL_OpenAudio(SDL_AudioSpec *desired, SDL_AudioSpec *obtained) {
 }
 
 static void detect_display_size(void) {
-#ifdef FUN_DUAL_PANEL
+#ifdef DRASTIC_UI_PLUS_DUAL_PANEL
     SDL_Rect top, bottom;
     if (SDL_GetNumVideoDisplays() == 2 &&
         SDL_GetDisplayBounds(0, &top) == 0 && SDL_GetDisplayBounds(1, &bottom) == 0 &&
@@ -5133,7 +5133,7 @@ SDL_Window *SDL_CreateWindow(const char *title, int x, int y,
                              int w, int h, Uint32 flags) {
     hook();
     detect_display_size();
-#ifdef FUN_FORCE_FULLSCREEN
+#ifdef DRASTIC_UI_PLUS_FORCE_FULLSCREEN
     /* some compositors only grant input focus to fullscreen toplevels */
     flags |= SDL_WINDOW_FULLSCREEN;
 #endif
@@ -5167,7 +5167,7 @@ SDL_Renderer *SDL_CreateRenderer(SDL_Window *win, int index, Uint32 flags) {
        blocking wait to every present */
     if (flags & SDL_RENDERER_PRESENTVSYNC) {
         flags &= ~(Uint32)SDL_RENDERER_PRESENTVSYNC;
-        fprintf(stderr, "[fun] video: PRESENTVSYNC stripped (NDS_NO_VSYNC)\n");
+        fprintf(stderr, "[drastic-ui-plus] video: PRESENTVSYNC stripped (NDS_NO_VSYNC)\n");
     }
 #endif
     app.renderer = real_SDL_CreateRenderer(win, index, flags);
@@ -5331,7 +5331,7 @@ static void nds_pacing_valve(void) {
     if (n_tot >= 60 && n_beh * 3 >= n_tot) {
         *(volatile uint64_t *)(sys + NDS_SYNC_TARGET_OFF) = elapsed3 - 18000;
         if (fun_evlog())
-            fprintf(stderr, "[fun] pacing valve: resync (%d/%d presents "
+            fprintf(stderr, "[drastic-ui-plus] pacing valve: resync (%d/%d presents "
                     "behind, delta %d us)\n", n_beh, n_tot, delta3 / 3);
     }
     win_start = 0; n_tot = n_beh = 0;
@@ -5339,10 +5339,10 @@ static void nds_pacing_valve(void) {
 #endif /* NDS_PACING_VALVE */
 
 void SDL_RenderPresent(SDL_Renderer *ren) {
-#ifdef FUN_NATIVE_FF_OFFSET
+#ifdef DRASTIC_UI_PLUS_NATIVE_FF_OFFSET
     int active = native_ff_active();
     if (active != app.ff_speed && fun_evlog())
-        fprintf(stderr, "[fun] native fast-forward %s\n", active ? "on" : "off");
+        fprintf(stderr, "[drastic-ui-plus] native fast-forward %s\n", active ? "on" : "off");
     app.ff_speed = active;
 #endif
 #ifdef NDS_PACING_VALVE
@@ -5351,14 +5351,14 @@ void SDL_RenderPresent(SDL_Renderer *ren) {
 #ifdef NDS_NO_VSYNC
     /* With vsync stripped nothing bounds fast-forward. Govern emulated
        time directly: the frame-sync target advances 50000 (16.67ms * 3)
-       per frame, so hold it to FUN_FF_SPEED x real time (default 2x). */
+       per frame, so hold it to DRASTIC_UI_PLUS_FF_SPEED x real time (default 2x). */
     if (app.ff_speed > 0 && !app.in_menu && app.base) {   /* app.base==0 on ARM32: no sync offsets */
         uint8_t *sysf = (uint8_t *)drastic_system();
         if (sysf) {
             static uint64_t ff_t0 = 0, ff_v0 = 0, ff_last_rt = 0;
             static uint64_t ff_mult = 0;
             if (!ff_mult) {
-                const char *fs = getenv("FUN_FF_SPEED");
+                const char *fs = getenv("DRASTIC_UI_PLUS_FF_SPEED");
                 ff_mult = fs ? (uint64_t)atoi(fs) : 2;
                 if (ff_mult < 2 || ff_mult > 8) ff_mult = 2;
             }
@@ -5427,7 +5427,7 @@ void SDL_RenderPresent(SDL_Renderer *ren) {
                 uint32_t rnow = real_SDL_GetTicks ? real_SDL_GetTicks() : 0;
                 if (!rwait_start) {
                     rwait_start = rnow ? rnow : 1;
-                    fprintf(stderr, "[fun] resume: fifo quartet %#lx/%#lx "
+                    fprintf(stderr, "[drastic-ui-plus] resume: fifo quartet %#lx/%#lx "
                             "sys=%p ready=%d (cap %d ms)\n",
                             (unsigned long)v0, (unsigned long)v2,
                             (void *)s3, ready, rwait_cap_ms);
@@ -5440,7 +5440,7 @@ void SDL_RenderPresent(SDL_Renderer *ren) {
                     return;
                 }
                 if (rnow - rwait_start > 60)
-                    fprintf(stderr, "[fun] resume: %s after %u ms - loading\n",
+                    fprintf(stderr, "[drastic-ui-plus] resume: %s after %u ms - loading\n",
                             ready ? "3D engine ready" : "wait cap reached",
                             (unsigned)(rnow - rwait_start));
             }
@@ -5621,7 +5621,7 @@ SDL_Texture *SDL_CreateTexture(SDL_Renderer *ren, Uint32 fmt,
                                int access, int w, int h) {
     SDL_Texture *t = real_SDL_CreateTexture(ren, fmt, access, w, h);
     int screen_size = w == DS_W && h == DS_H;
-#ifdef FUN_DUAL_PANEL
+#ifdef DRASTIC_UI_PLUS_DUAL_PANEL
     // ROCKNIX's DraStic may recreate the screen textures at twice the DS size.
     screen_size |= w == 2 * DS_W && h == 2 * DS_H;
 #endif
@@ -5639,7 +5639,7 @@ void SDL_DestroyTexture(SDL_Texture *tex) {
 }
 
 void SDL_Delay(uint32_t ms) {
-#ifndef FUN_NATIVE_FF_OFFSET
+#ifndef DRASTIC_UI_PLUS_NATIVE_FF_OFFSET
     if (app.ff_speed > 0) return;
 #endif
     if (ms > 16) ms = 16;
@@ -5679,7 +5679,7 @@ uint32_t SDL_GetTicks(void) {
 }
 
 int SDL_PollEvent(SDL_Event *event) {
-#ifndef FUN_NATIVE_FF_OFFSET
+#ifndef DRASTIC_UI_PLUS_NATIVE_FF_OFFSET
     if (!app.in_menu) {
         void *sys = drastic_system();
         if (sys) {
@@ -5736,7 +5736,7 @@ repoll:
     if (!result && !app.in_menu) result = nds_evpad_next_event(event);
 #endif
     if (result && event) evlog_event(event, "main");
-#ifdef FUN_DUAL_PANEL
+#ifdef DRASTIC_UI_PLUS_DUAL_PANEL
     if (result && event && (event->type == SDL_FINGERDOWN ||
         event->type == SDL_FINGERMOTION || event->type == SDL_FINGERUP)) {
         panel_touch_event(&event->tfinger);
@@ -5802,7 +5802,7 @@ repoll:
     static uint32_t menu_press_time  = 0;
     static int      menu_combo_fired = 0;
 
-#ifdef FUN_KB_INPUT
+#ifdef DRASTIC_UI_PLUS_KB_INPUT
     /* Keyboard input layer: mirror mapped keys onto joy_held, own the Menu
        key (tap opens this menu), and turn Menu-held combos into synthetic
        pad events for the shortcut machinery. Other keys pass through. */
@@ -5991,7 +5991,7 @@ repoll:
         int fired     = 0;
 
         if (menu_held && fun_evlog()) {
-            fprintf(stderr, "[fun] combo probe: btn=%d bindings", phys);
+            fprintf(stderr, "[drastic-ui-plus] combo probe: btn=%d bindings", phys);
             for (int i = 0; i < SC_COUNT; i++)
                 fprintf(stderr, " %d/%d", app.sc_btn[i], app.sc_mod[i]);
             fprintf(stderr, "\n");
@@ -6018,7 +6018,7 @@ repoll:
                 load_user_state(app.load_slot);
                 break;
             case SC_FAST_FORWARD:
-#ifdef FUN_NATIVE_FF_OFFSET
+#ifdef DRASTIC_UI_PLUS_NATIVE_FF_OFFSET
                 *event = native_ff_toggle_event();
                 return 1;
 #else
@@ -6158,7 +6158,7 @@ static void *boot_watchdog(void *arg) {
             const char *cur_preload = getenv("LD_PRELOAD");
             if (!cur_preload || !cur_preload[0]) {
                 char preload[MAX_PATH];
-                snprintf(preload, sizeof(preload), "%s/lib/libfundrastic.so", app.drastic_dir);
+                snprintf(preload, sizeof(preload), "%s/lib/libdrastic-ui-plus.so", app.drastic_dir);
                 setenv("LD_PRELOAD", preload, 1);
             }
             execv(g_argv[0], g_argv);
@@ -6171,13 +6171,13 @@ static void *boot_watchdog(void *arg) {
 static int hook_main(int argc, char **argv, char **envp) {
     hook();
     lcd_grid_init(DS_W, DS_H);
-    shared_save_dir = getenv("FUN_DRASTIC_SAVE_DIR");
+    shared_save_dir = getenv("DRASTIC_UI_PLUS_SAVE_DIR");
     if (shared_save_dir && !*shared_save_dir) shared_save_dir = NULL;
-    shared_state_dir = getenv("FUN_DRASTIC_STATE_DIR");
+    shared_state_dir = getenv("DRASTIC_UI_PLUS_STATE_DIR");
     if (shared_state_dir && !*shared_state_dir) shared_state_dir = NULL;
     /* Data home: the binary's own directory by default; ports whose
-       binary sits in bin/ export FUN_DRASTIC_DIR to name it explicitly. */
-    const char *fdir = getenv("FUN_DRASTIC_DIR");
+       binary sits in bin/ export DRASTIC_UI_PLUS_DIR to name it explicitly. */
+    const char *fdir = getenv("DRASTIC_UI_PLUS_DIR");
     if (fdir && fdir[0]) {
         strncpy(app.drastic_dir, fdir, MAX_PATH - 1);
     } else if (argc >= 1 && argv[0] && argv[0][0]) {
@@ -6194,7 +6194,7 @@ static int hook_main(int argc, char **argv, char **envp) {
             char cfg[MAX_PATH];
             snprintf(cfg, sizeof(cfg), "%s/config/drastic.cfg", app.drastic_dir);
             drastic_cfg_set(cfg, "fast_forward", "0");
-#ifdef FUN_NATIVE_FF_OFFSET
+#ifdef DRASTIC_UI_PLUS_NATIVE_FF_OFFSET
             // DraStic encodes F12 as 0x100 | SDL_SCANCODE_F12.
             drastic_cfg_set(cfg, "controls_a[CONTROL_INDEX_FAST_FORWARD]", "325");
 #endif

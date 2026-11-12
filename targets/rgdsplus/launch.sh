@@ -1,11 +1,11 @@
 #!/bin/sh
-# Run Fun Drastic with private emulator data.
+# Run DraStic UI Plus with private emulator data.
 set -eu
 root=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 rom=$(realpath "${1:?Pass a Nintendo DS ROM}")
 case "$rom" in
     "$root"/roms/*.[nN][dD][sS]|/storage/roms/nds/*.[nN][dD][sS]) test -f "$rom" ;;
-    *) printf 'Fun Drastic: unsupported ROM path: %s\n' "$rom" >&2; exit 64 ;;
+    *) printf 'DraStic UI Plus: unsupported ROM path: %s\n' "$rom" >&2; exit 64 ;;
 esac
 
 system_drastic=/usr/config/drastic
@@ -38,16 +38,16 @@ if [ -f "$system_drastic/usrcheat.dat" ] && [ ! -e "$state/config/usrcheat.dat" 
     ln -s "$system_drastic/usrcheat.dat" "$state/config/usrcheat.dat"
 fi
 
-if [ -n "${FUN_DRASTIC_SAVE_DIR:-}" ]; then
-    test -d "$FUN_DRASTIC_SAVE_DIR"
+if [ -n "${DRASTIC_UI_PLUS_SAVE_DIR:-}" ]; then
+    test -d "$DRASTIC_UI_PLUS_SAVE_DIR"
     name=${rom##*/}
-    legacy="$FUN_DRASTIC_SAVE_DIR/${name%.*}.sav"
-    native="$FUN_DRASTIC_SAVE_DIR/${name%.*}.dsv"
+    legacy="$DRASTIC_UI_PLUS_SAVE_DIR/${name%.*}.sav"
+    native="$DRASTIC_UI_PLUS_SAVE_DIR/${name%.*}.dsv"
     # DraStic reads raw saves at its .dsv path. Seed that file once from
-    # an earlier Fun Drastic save, leaving the original and any .dsv intact.
+    # an earlier raw save, leaving the original and any .dsv intact.
     if [ -f "$legacy" ] && [ -s "$legacy" ] && [ ! -e "$native" ] && [ ! -L "$native" ]; then
         (
-            tmp=$(mktemp "$FUN_DRASTIC_SAVE_DIR/.fundrastic-save.XXXXXX")
+            tmp=$(mktemp "$DRASTIC_UI_PLUS_SAVE_DIR/.drastic-ui-plus-save.XXXXXX")
             trap 'rm -f -- "$tmp"' EXIT
             cp "$legacy" "$tmp"
             # Publish the complete copy without overwriting a concurrent save.
@@ -55,12 +55,12 @@ if [ -n "${FUN_DRASTIC_SAVE_DIR:-}" ]; then
         )
     fi
 fi
-if [ -n "${FUN_DRASTIC_STATE_DIR:-}" ]; then
-    test -d "$FUN_DRASTIC_STATE_DIR"
+if [ -n "${DRASTIC_UI_PLUS_STATE_DIR:-}" ]; then
+    test -d "$DRASTIC_UI_PLUS_STATE_DIR"
 fi
 cd "$state"
-export FUN_DRASTIC_DIR="$state"
+export DRASTIC_UI_PLUS_DIR="$state"
 export SDCARD_PATH="$state"
 export SDL_VIDEO_WAYLAND_WMCLASS=drastic
 export SDL_TOUCH_MOUSE_EVENTS=0
-exec env LD_PRELOAD="$root/lib/libfundrastic.so" "$binary" "$rom" > "$root/session.log" 2>&1
+exec env LD_PRELOAD="$root/lib/libdrastic-ui-plus.so" "$binary" "$rom" > "$root/session.log" 2>&1

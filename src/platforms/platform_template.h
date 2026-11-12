@@ -1,11 +1,11 @@
-// Fun Drastic platform template — copy to platform_<yourdevice>.h and edit.
+// DraStic UI Plus platform template — copy to platform_<yourdevice>.h and edit.
 //
 // This header is pulled in at compile time with -include and describes ONE
 // device: its panel, how its buttons arrive, and a few emulator-side toggles.
 // platform_leaf.h is the fully worked example (Miniloong Pocket 1 / Wayland);
 // start from whichever existing header is closest to your hardware.
 //
-// The hook is a single source (funhook.c). A 64-bit device compiles it as-is;
+// The hook is a single source (drastic-ui-plus.c). A 64-bit device compiles it as-is;
 // a 32-bit (armhf) device compiles it with -DDRASTIC_ARM32, which selects the
 // armhf DraStic's offsets (a different, non-PIE binary - offsets are absolute).
 // See docs/BUILDING.md.
@@ -16,18 +16,18 @@
 #define PLATFORM_NAME       "template"   // short id, shown in logs
 
 // --- Input source -----------------------------------------------------------
-// FUN_KB_INPUT: set to 1 if the OS delivers the gamepad as KEYBOARD events
+// DRASTIC_UI_PLUS_KB_INPUT: set to 1 if the OS delivers the gamepad as KEYBOARD events
 // (then the JOY_* numbers below are mirrored from keys); 0 for a real joystick.
-// FUN_KB_MENU2: a second key that acts as Menu, or -2 to disable (let the
+// DRASTIC_UI_PLUS_KB_MENU2: a second key that acts as Menu, or -2 to disable (let the
 // joystick own Menu — avoids a double Menu press on hosts that send both).
-#define FUN_KB_INPUT        0
-#define FUN_KB_MENU2        (-2)
+#define DRASTIC_UI_PLUS_KB_INPUT        0
+#define DRASTIC_UI_PLUS_KB_MENU2        (-2)
 
-// FUN_FORCE_FULLSCREEN: 1 where the compositor only gives input focus to a
+// DRASTIC_UI_PLUS_FORCE_FULLSCREEN: 1 where the compositor only gives input focus to a
 // fullscreen surface (Wayland). 0 for framebuffer / KMSDRM devices.
-#define FUN_FORCE_FULLSCREEN 0
+#define DRASTIC_UI_PLUS_FORCE_FULLSCREEN 0
 
-// --- Emulator-side toggles (see funhook.c) ----------------------------------
+// --- Emulator-side toggles (see drastic-ui-plus.c) ----------------------------------
 #define NDS_PACING_VALVE    1   // hook paces frames (keep on)
 #define NDS_NO_VSYNC        1   // strip vsync; pacing handles timing
 // #define NDS_RESUME_WAIT_3D 1 // enable only if boot-resume loads glitch

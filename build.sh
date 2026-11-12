@@ -1,5 +1,5 @@
 #!/bin/sh
-# Compile the Fun Drastic hook for one target. Runs INSIDE the toolchain
+# Compile the DraStic UI Plus hook for one target. Runs INSIDE the toolchain
 # image (it needs the cross-compilers); invoke it through the Makefile
 # (`make <target>`) or build.bat (`build.bat <target>`), not on the host.
 #
@@ -23,6 +23,6 @@ fi
 mkdir -p "$here/build/$target"
 # shellcheck disable=SC2086
 $CC -include "$hdr" $WARN $INC \
-    "$here/src/funhook.c" -o "$here/build/$target/libfundrastic.so" \
+    "$here/src/drastic-ui-plus.c" -o "$here/build/$target/libdrastic-ui-plus.so" \
     -ldl -lpthread -lm
-echo "Built: build/$target/libfundrastic.so"
+echo "Built: build/$target/libdrastic-ui-plus.so"
