@@ -1,6 +1,6 @@
 // platform_h700.h — Allwinner H700 family (Anbernic RG35XX Plus/H/2024,
 // RG34XXSP, RG40XX, ...). Runs the 32-bit armhf DraStic, so this target builds
-// funhook.c with -DDRASTIC_ARM32 (see the Makefile).
+// drastic-ui-plus.c with -DDRASTIC_ARM32 (see the Makefile).
 // Panel: 640x480 landscape (no rotation needed)
 
 #ifndef PLATFORM_H
@@ -69,8 +69,8 @@
 // ── Raw-evdev game-pad bridge ──────────────────────────────────────────────
 // This image exposes NO SDL joystick and does NOT deliver the pad as SDL
 // keyboard, so the SDL input path is dead. NDS_EVDEV_PAD makes the hook read
-// the pad from the kernel evdev nodes directly (see the bridge in funhook.c).
-// The evdev node list and raw-code map live in funhook.c's evp_map() - re-derive
+// the pad from the kernel evdev nodes directly (see the bridge in drastic-ui-plus.c).
+// The evdev node list and raw-code map live in drastic-ui-plus.c's evp_map() - re-derive
 // them with `evtest` for a different device.
 #define NDS_EVDEV_PAD 1
 
