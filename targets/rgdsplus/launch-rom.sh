@@ -7,7 +7,7 @@ rom=$(realpath "${1:?Pass a Nintendo DS ROM}")
 game_name=${rom##*/}
 shader=$(get_setting drastic_ui_plus_shader nds "$game_name")
 if [ -z "$shader" ] || [ "$shader" = auto ]; then
-    shader=$(get_setting shader nds "$game_name")
+    shader=lcd-grid
 fi
 export DRASTIC_UI_PLUS_SHADER="$shader"
 intensity=$(get_setting drastic_ui_plus_lcd_intensity nds "$game_name")

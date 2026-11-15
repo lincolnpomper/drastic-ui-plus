@@ -38,7 +38,7 @@ The archive in `dist/` contains the UI library, scripts, EmulationStation config
 
 Close the running game before installation. Copy the archive to the console and extract it under `/storage` so the launcher is at `/storage/drastic-ui-plus/launch-rom.sh`. Install the archive's two `es_*.cfg` files in `/storage/.config/emulationstation/`, then restart EmulationStation. If the earlier Fun Drastic test integration is installed, move its `es_*_fun_drastic.cfg` files outside that directory first to avoid competing Nintendo DS overrides.
 
-Choose **DraStic UI Plus** as the Nintendo DS emulator. The **LCD Filter** menu offers LCD Grid, LCD1x, LCD3x and Off. **Intensity** applies to all three filters, and **Brighten Scanlines** and **Brighten LCD** tune the horizontal and vertical masks in LCD1x and LCD3x. Reopen the game after changing settings.
+Choose **DraStic UI Plus** as the Nintendo DS emulator. The **LCD Filter** menu offers Auto, LCD Grid, LCD1x, LCD3x and Off. Auto applies LCD Grid. **Intensity** applies to all three filters, and **Brighten Scanlines** and **Brighten LCD** tune the horizontal and vertical masks in LCD1x and LCD3x. Reopen the game after changing settings.
 
 The add-on uses its own `state/` folder for UI settings and preview images. In-game saves (`.dsv`) use `/storage/roms/nds/` by default. DraStic save states (`.dss`) use `/storage/roms/savestates/nds/`.
 
