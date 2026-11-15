@@ -21,7 +21,10 @@ if [ ! -d "$1" ] || [ ! -w "$1" ]; then
     exit 1
 fi
 
-target=$(realpath -- "$1")
+case "$1" in
+    /*) target=$(realpath "$1") ;;
+    *) target=$(realpath "$PWD/$1") ;;
+esac
 backup="$root/state/backup"
 mkdir -p "$root/state"
 if [ -L "$backup" ]; then
