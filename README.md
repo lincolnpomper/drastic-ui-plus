@@ -24,4 +24,10 @@ Choose **DraStic UI Plus** as the Nintendo DS emulator. The **LCD Filter** menu 
 
 The add-on uses its own `state/` folder for UI settings and preview images. In-game saves (`.dsv`) use `/storage/roms/nds/` by default. DraStic save states (`.dss`) use `/storage/roms/savestates/nds/`.
 
-To use a custom save location, close the emulator and point `/storage/drastic-ui-plus/state/backup` to your existing writable save directory with a symbolic link. Use `state/savestates` to customize the state location independently. The launcher creates the default links on first use and preserves existing directories and links. When replacing a populated directory, back it up and copy any saves you want to keep into the new destination before switching. Existing saves stay in their original locations until you move them.
+To use a custom location for in-game saves, close DraStic and run this optional command on the console with an existing writable directory:
+
+```sh
+/storage/drastic-ui-plus/set-save-directory.sh /path/to/saves
+```
+
+The script sets the `state/backup` symbolic link and preserves any existing save files. It replaces the default ROCKNIX link and asks you to handle any other existing path before switching. Use `state/savestates` to customize the state location independently. The launcher creates the default links on first use and preserves existing directories and links. When replacing a populated directory, back it up and copy any saves you want to keep into the new destination before switching. Existing saves stay in their original locations until you move them.
