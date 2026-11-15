@@ -7,12 +7,15 @@ people's, and it is what makes Fun Drastic possible.
 
 ## The emulator
 
-- **DraStic** — Nintendo DS emulator by **Exophase** (with Lordus and slaanesh).
-  Proprietary freeware; all emulation is DraStic's. Fun Drastic hooks the
-  publicly distributed binaries unmodified and is **not affiliated with or
-  endorsed by** Exophase.
-- **DraStic free BIOS** — the drop-in ARM7/ARM9 BIOS replacement bundled with
-  DraStic, used so no Nintendo BIOS files are required.
+- **DraStic** — proprietary Nintendo DS emulator by **Exophase** (with
+  Lordus and slaanesh). DraStic UI Plus runs the compatible executable
+  already installed by ROCKNIX. The executable is excluded from this
+  repository and its release packages. DraStic UI Plus is an unofficial
+  add-on with no affiliation with or endorsement from Exophase.
+- **DraStic free BIOS** — ARM7/ARM9 BIOS replacements supplied with
+  DraStic. The add-on references the copies provided by ROCKNIX. This
+  repository and its release packages exclude both the DraStic replacement
+  BIOS files and Nintendo BIOS files.
 
 ## Libraries
 
@@ -43,5 +46,11 @@ target folder, not here.
 ## Trademarks
 
 Nintendo, Nintendo DS, and all game titles are trademarks of their respective
-owners. Fun Drastic contains no Nintendo code, art, or assets; theme names
-are color-palette names only.
+owners. DraStic UI Plus does not bundle Nintendo code or game assets.
+The README screenshots illustrate the add-on in use. Theme names refer
+only to color palettes.
+
+## DraStic UI Plus
+
+- **[lincolnpomper](https://github.com/lincolnpomper)** — RG DS Plus adaptation and maintenance.
+- **Gigaherz** — public-domain [LCD3x shader distributed with RetroArch](https://github.com/libretro/slang-shaders/blob/master/handheld/shaders/lcd3x.slang), the basis for the RGB LCD3x and monochrome LCD1x masks implemented in SDL.

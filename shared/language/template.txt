@@ -1,4 +1,4 @@
-# Fun Drastic language file. Copy this to <locale>.txt (e.g. es_MX.txt,
+# DraStic UI Plus language file. Copy this to <locale>.txt (e.g. es_MX.txt,
 # zh_CN.txt) and translate the RIGHT side of each line. Left = English key,
 # do not change it. Lines starting with # are ignored. Missing lines fall
 # back to English. English is built in. Save as UTF-8.

@@ -1,4 +1,4 @@
-# 简体中文 - Fun Drastic. UTF-8. STARTER translation for testing the
+# 简体中文 - DraStic UI Plus. UTF-8. STARTER translation for testing the
 # translate font - please have a native speaker review before shipping.
 
 3D THREADING=3D 多线程

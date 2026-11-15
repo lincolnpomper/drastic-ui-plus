@@ -1,4 +1,4 @@
-# Español - Fun Drastic. UTF-8. Los acentos se muestran con la
+# Español - DraStic UI Plus. UTF-8. Los acentos se muestran con la
 # fuente de traducción integrada (Translate.otf).
 
 3D THREADING=HILOS 3D

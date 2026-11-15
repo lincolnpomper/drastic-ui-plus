@@ -1,4 +1,4 @@
-// Fun Drastic platform: mlp1 (RK3566, 960x720 panel, Wayland compositor).
+// DraStic UI Plus platform: mlp1 (RK3566, 960x720 panel, Wayland compositor).
 
 #ifndef PLATFORM_H
 #define PLATFORM_H
@@ -7,13 +7,13 @@
 
 // Buttons arrive as keyboard events on this host; mirror them onto JOY_*.
 // The Menu button is owned by the joystick (btn 10) - keyboard alias off.
-#define FUN_KB_INPUT        1
-#define FUN_KB_MENU2        (-2)
+#define DRASTIC_UI_PLUS_KB_INPUT        1
+#define DRASTIC_UI_PLUS_KB_MENU2        (-2)
 
 // The compositor grants input focus to fullscreen toplevels only.
-#define FUN_FORCE_FULLSCREEN 1
+#define DRASTIC_UI_PLUS_FORCE_FULLSCREEN 1
 
-// Emulator-side fixes (see funhook.c). No NDS_RESUME_WAIT_3D here: boot
+// Emulator-side fixes (see drastic-ui-plus.c). No NDS_RESUME_WAIT_3D here: boot
 // resume loads immediately on this host (field-clean), and the wait only
 // added a visible hold.
 #define NDS_PACING_VALVE    1
