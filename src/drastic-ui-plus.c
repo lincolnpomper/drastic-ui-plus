@@ -54,9 +54,6 @@
 #define DS_W    256     // NDS native screen width (never changes)
 #define DS_H    192     // NDS native screen height
 
-static const char *shared_save_dir;
-static const char *shared_state_dir;
-
 #define MAX_SLOTS   8
 #define MAX_PATH    512
 #define MAX_FILE    256
@@ -1606,12 +1603,17 @@ static void fclose_durable(FILE *f) {
     fflush(f); fsync(fileno(f)); fclose(f);
 }
 static int state_is_shared(int slot) {
-    return shared_state_dir && slot >= 0 && slot < MAX_SLOTS;
+#ifdef DRASTIC_UI_PLUS_NATIVE_SAVES
+    return slot >= 0 && slot < MAX_SLOTS;
+#else
+    (void)slot;
+    return 0;
+#endif
 }
 
 static void state_dir(char *out, size_t size, int slot) {
     if (state_is_shared(slot))
-        snprintf(out, size, "%s/", shared_state_dir);
+        snprintf(out, size, "%s/savestates/", app.drastic_dir);
     else
         snprintf(out, size, "%s/%s/", sdcard_path(), STATES_DIR);
 }
@@ -6109,11 +6111,13 @@ int __snprintf_chk(char *s, size_t maxlen, int flag, size_t slen,
     va_list ap; va_start(ap, fmt);
     if (fmt && strcmp(fmt, "%s%cbackup%c%s.dsv") == 0) {
         va_end(ap);
-        if (shared_save_dir)
-            return real__snprintf_chk(s, maxlen, flag, slen,
-                        "%s/%s.dsv", shared_save_dir, app.rom_name);
+#ifdef DRASTIC_UI_PLUS_NATIVE_SAVES
+        return real__snprintf_chk(s, maxlen, flag, slen,
+                    "%s/backup/%s.dsv", app.drastic_dir, app.rom_name);
+#else
         return real__snprintf_chk(s, maxlen, flag, slen,
                     "%s/%s/%s.sram", sdcard_path(), SAVES_DIR, app.rom_name);
+#endif
     }
     int r = vsnprintf(s, maxlen, fmt, ap);
     va_end(ap); return r;
@@ -6171,10 +6175,6 @@ static void *boot_watchdog(void *arg) {
 static int hook_main(int argc, char **argv, char **envp) {
     hook();
     lcd_grid_init(DS_W, DS_H);
-    shared_save_dir = getenv("DRASTIC_UI_PLUS_SAVE_DIR");
-    if (shared_save_dir && !*shared_save_dir) shared_save_dir = NULL;
-    shared_state_dir = getenv("DRASTIC_UI_PLUS_STATE_DIR");
-    if (shared_state_dir && !*shared_state_dir) shared_state_dir = NULL;
     /* Data home: the binary's own directory by default; ports whose
        binary sits in bin/ export DRASTIC_UI_PLUS_DIR to name it explicitly. */
     const char *fdir = getenv("DRASTIC_UI_PLUS_DIR");

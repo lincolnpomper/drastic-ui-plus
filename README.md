@@ -22,4 +22,6 @@ Close the running game before installation. Copy the archive to the console and 
 
 Choose **DraStic UI Plus** as the Nintendo DS emulator. The **LCD Filter** menu offers LCD Grid, LCD1x, LCD3x and Off. **Intensity** applies to all three filters, and **Brighten Scanlines** and **Brighten LCD** tune the horizontal and vertical masks in LCD1x and LCD3x. Reopen the game after changing settings.
 
-The add-on uses its own `state/` folder for UI settings and preview images. In-game saves and save states use the shared ROCKNIX locations configured by the launcher.
+The add-on uses its own `state/` folder for UI settings and preview images. In-game saves (`.dsv`) use `/storage/roms/nds/` by default. DraStic save states (`.dss`) use `/storage/roms/savestates/nds/`.
+
+To use a custom save location, close the emulator and point `/storage/drastic-ui-plus/state/backup` to your existing writable save directory with a symbolic link. Use `state/savestates` to customize the state location independently. The launcher creates the default links on first use and preserves existing directories and links. When replacing a populated directory, back it up and copy any saves you want to keep into the new destination before switching. Existing saves stay in their original locations until you move them.

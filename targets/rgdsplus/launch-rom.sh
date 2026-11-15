@@ -19,8 +19,6 @@ export DRASTIC_UI_PLUS_LCD_INTENSITY="$intensity"
 DRASTIC_UI_PLUS_BRIGHTEN_SCANLINES=$(get_setting drastic_ui_plus_brighten_scanlines nds "$game_name")
 DRASTIC_UI_PLUS_BRIGHTEN_LCD=$(get_setting drastic_ui_plus_brighten_lcd nds "$game_name")
 export DRASTIC_UI_PLUS_BRIGHTEN_SCANLINES DRASTIC_UI_PLUS_BRIGHTEN_LCD
-export DRASTIC_UI_PLUS_SAVE_DIR=/storage/roms/saves/retroarch/nds
-export DRASTIC_UI_PLUS_STATE_DIR=/storage/roms/saves/states/retroarch/nds
 case "$rom" in
     /storage/roms/nds/*.[nN][dD][sS]) exec "$root/launch.sh" "$rom" ;;
     /storage/roms/nds/*.[zZ][iI][pP]|/storage/roms/nds/*.[7][zZ]) ;;

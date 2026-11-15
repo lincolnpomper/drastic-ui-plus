@@ -17,7 +17,7 @@ if [ ! -x "$binary" ] || ! printf '%s  %s\n' "$expected" "$binary" | sha256sum -
 fi
 
 state="$root/state"
-mkdir -p "$state"/backup "$state"/savestates "$state"/Saves "$state"/cheats \
+mkdir -p "$state"/Saves "$state"/cheats \
     "$state"/profiles "$state"/unzip_cache "$state"/input_record "$state"/slot2 "$state"/scripts
 # Keep a writable config and reference the data already supplied by ROCKNIX.
 mkdir -p "$state/config" "$state/system"
@@ -38,26 +38,21 @@ if [ -f "$system_drastic/usrcheat.dat" ] && [ ! -e "$state/config/usrcheat.dat" 
     ln -s "$system_drastic/usrcheat.dat" "$state/config/usrcheat.dat"
 fi
 
-if [ -n "${DRASTIC_UI_PLUS_SAVE_DIR:-}" ]; then
-    test -d "$DRASTIC_UI_PLUS_SAVE_DIR"
-    name=${rom##*/}
-    legacy="$DRASTIC_UI_PLUS_SAVE_DIR/${name%.*}.sav"
-    native="$DRASTIC_UI_PLUS_SAVE_DIR/${name%.*}.dsv"
-    # DraStic reads raw saves at its .dsv path. Seed that file once from
-    # an earlier raw save, leaving the original and any .dsv intact.
-    if [ -f "$legacy" ] && [ -s "$legacy" ] && [ ! -e "$native" ] && [ ! -L "$native" ]; then
-        (
-            tmp=$(mktemp "$DRASTIC_UI_PLUS_SAVE_DIR/.drastic-ui-plus-save.XXXXXX")
-            trap 'rm -f -- "$tmp"' EXIT
-            cp "$legacy" "$tmp"
-            # Publish the complete copy without overwriting a concurrent save.
-            ln -T -- "$tmp" "$native" || test -f "$native"
-        )
+# Use the ROCKNIX defaults and honor local directories or symlinks.
+prepare_save_directory() {
+    path="$state/$1"
+    if [ ! -e "$path" ] && [ ! -L "$path" ]; then
+        mkdir -p "$2"
+        ln -sT "$2" "$path" || test -d "$path"
     fi
-fi
-if [ -n "${DRASTIC_UI_PLUS_STATE_DIR:-}" ]; then
-    test -d "$DRASTIC_UI_PLUS_STATE_DIR"
-fi
+    if [ ! -d "$path" ] || [ ! -w "$path" ]; then
+        printf 'DraStic UI Plus: save directory is unavailable or not writable: %s\n' "$path" >&2
+        exit 73
+    fi
+}
+prepare_save_directory backup /storage/roms/nds
+prepare_save_directory savestates /storage/roms/savestates/nds
+
 cd "$state"
 export DRASTIC_UI_PLUS_DIR="$state"
 export SDCARD_PATH="$state"

@@ -4,6 +4,7 @@
 
 #define PLATFORM_NAME       "rgdsplus"
 #define DRASTIC_UI_PLUS_DUAL_PANEL      1
+#define DRASTIC_UI_PLUS_NATIVE_SAVES    1
 
 #define FB_W                1024
 #define FB_H                768
